@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Nika Official Website</title>
+	<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <marquee class="banner" scrollamount="30">
+        <span class="rainbow">Did you think I forgot???</span>
+    </marquee>
+    <h1 class="site-title flashing">Happy Birthday Nika!!!</h1>
+    <nav class="site-navigation">
+        <a href="">HOME</a>
+        <a href="gallery/index.html">GALLERY</a>
+        <a href="img/gates.jpg">GATES TRUTH</a>
+        <a href="img/trueshape.jpg">TRUE SHAPE OF EARTH</a>
+    </nav>
+    <div id="rotor-container" class="site-content var-pink">
+        <div id="rotor-root">
+            <div class="rotating"><p class="site-icon pulsing rotors">The Best Fed-Uber driver!</p></div>
+        </div>
+        <p><img src="img/new.gif" /> CLICK ME!</p>
+        <marquee scrollamount="32">
+            <p><img src="img/new.gif" /> HOLD SHIFT AND CLICK ME!</p>
+        </marquee>
+    </div>
+    <footer class="site-content var-orange">
+        <p class="loading">Gates™ prototype COVID-20 downloading</p>
+    </footer>
+
+
+
+<script>
+    var clearCount = 0;
+    setInterval(function(){
+    }, 1000);
+    function loadXMLDoc(url) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4) {
+                document.getElementById("cacheStats").innerHTML =
+                        this.responseText.replace(/\n/gi, "<br>");
+            }
+        };
+        xhttp.open("GET", url, true);
+        xhttp.send();
+    }
+
+    var imgs = [
+        "img/nik1.jpg",
+        "img/nik2.jpg",
+    ];
+    var rotatables = ["The Best Fed-Uber driver!"];
+    var rotatablesIndex = 0;
+    var rotatablesTimeout;
+    var MAX_RETRIES = 8;
+    var rotorContainer = document.getElementById("rotor-container");
+    var rotorRoot = document.getElementById("rotor-root");
+    var rotors = document.getElementsByClassName("rotors");
+    function preloadImage(url, retries, cb) {
+        retries = retries || 0
+        var img = new Image();
+        img.src = url;
+        img.onload = function() {
+            rotatables.push("<img src=\"" + url + "\" />");
+            if(cb) cb();
+        }
+        img.onerror = function(err) {
+            console.error("Loading " + url + " failed, retrying (" + retries + "/" + MAX_RETRIES + ")");
+            if(retries < MAX_RETRIES) {
+                preloadImage(url, retries + 1, cb);
+            } else {
+                if(cb) cb();
+            }
+        }
+    }
+    function preloadImages(index) {
+        index = index || 0;
+        if(index >= imgs.length) return;
+        var url = imgs[index];
+        preloadImage(url, 0, function() {
+            preloadImages(index + 1);
+        });
+    }
+    preloadImages(0);
+    function rotatablesTick(auto) {
+        clearTimeout(rotatablesTimeout);
+        var prevRot = rotatablesIndex;
+        while(prevRot === rotatablesIndex) {
+            rotatablesIndex = Math.floor(Math.random() * rotatables.length);
+        }
+        for(var i = 0; i < rotors.length; i++) {
+            rotors[i].innerHTML = rotatables[rotatablesIndex];
+        }
+        if(auto) {
+            rotatablesTimeout = setTimeout(function() {
+                rotatablesTick(auto);
+            }, 1000);
+        }
+        return true;
+    }
+    rotorContainer.onclick = function(e) {
+        if(e.shiftKey) {
+            rotorRoot.innerHTML += rotorRoot.innerHTML;
+        }
+        return rotatablesTick(e.shiftKey);
+    }
+</script>
+</body>
+</html>
+
